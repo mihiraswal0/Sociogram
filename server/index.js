@@ -10,6 +10,9 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import {register} from './controller/auth';
 import authRoutes from './routes/auth';
+import userRoutes from'./routes/user.js';
+import postRoutes from './routes/post';
+import { verifyToken } from './middleware/auth';
 //middleware configuration
 const __filename=fileURLToPath(import.meta.url);
 const __dirname=path.dirname(__filename);
@@ -39,9 +42,13 @@ const storage=multer.diskStorage({
 const upload=multer({storage});
 //Registration
 app.post("./auth/register",upload.single("picture"),register);
+a.post("/posts",verifyToken,upload.single("picture"),createPost);
 //Routes
 app.use("/auth",authRoutes);
+app.use("/users",userRoutes);
+app.use("/posts",postRoutes);
 //Mongoose setup
+
 const PORT = process.env.PORT || 6001;
 mongoose
   .connect("mongodb+srv://mihiraswal0:Mihiraswal2903@cluster0.w90k0np.mongodb.net/?retryWrites=true&w=majority", {
