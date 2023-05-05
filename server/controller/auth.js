@@ -38,7 +38,7 @@ export const register = async (req, res) => {
   };
 
   //login
-  export const login = async (req, res) => {
+  export const  login = async (req, res) => {
     try {
       const { email, password } = req.body;
       const user = await User.findOne({ email: email });
@@ -47,7 +47,7 @@ export const register = async (req, res) => {
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) return res.status(400).json({ msg: "Invalid credentials. " });
   
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      const token = jwt.sign({ id: user._id }, "somestring");
       delete user.password;
       res.status(200).json({ token, user });
     } catch (err) {
