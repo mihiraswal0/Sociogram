@@ -8,11 +8,12 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import {register} from './controller/auth';
-import authRoutes from './routes/auth';
-import userRoutes from'./routes/user.js';
-import postRoutes from './routes/post';
-import { verifyToken } from './middleware/auth';
+import {register} from './controller/auth.js';
+import authRoutes from './routes/auth.js';
+import userRoutes from'./routes/users.js';
+import postRoutes from './routes/post.js';
+import { verifyToken } from './middleware/auth.js';
+import { createPost } from './controller/posts.js';
 //middleware configuration
 const __filename=fileURLToPath(import.meta.url);
 const __dirname=path.dirname(__filename);
@@ -42,7 +43,7 @@ const storage=multer.diskStorage({
 const upload=multer({storage});
 //Registration
 app.post("./auth/register",upload.single("picture"),register);
-a.post("/posts",verifyToken,upload.single("picture"),createPost);
+app.post("/posts",verifyToken,upload.single("picture"),createPost);
 //Routes
 app.use("/auth",authRoutes);
 app.use("/users",userRoutes);
