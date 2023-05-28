@@ -45,8 +45,8 @@ const storage=multer.diskStorage({
 
 const upload=multer({storage});
 //Registration
-app.post("./auth/register",upload.single("picture"),register);
-app.post("/posts",verifyToken,upload.single("picture"),createPost);
+app.post("/auth/register",upload.single("picture"),register);
+app.post("/posts",upload.single("picture"),createPost);
 //Routes
 app.use("/auth",authRoutes);
 app.use("/users",userRoutes);

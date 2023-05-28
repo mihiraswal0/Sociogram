@@ -63,7 +63,7 @@ const Form = () => {
     }
     formData.append("picturePath", values.picture.name);
 
-    const savedUserResponse = await fetch(
+   const savedUserResponse = await fetch(
       "http://localhost:3001/auth/register",
       {
         method: "POST",
@@ -98,8 +98,8 @@ const Form = () => {
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
-    // if (isLogin) await login(values, onSubmitProps);
-    // if (isRegister) await register(values, onSubmitProps);
+    if (isLogin) await login(values, onSubmitProps);
+    if (isRegister) await register(values, onSubmitProps);
   };
 
   return (
