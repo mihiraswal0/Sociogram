@@ -17,6 +17,7 @@ import { createPost } from './controller/posts.js';
 import User from './models/User.js'
 import Post from './models/Post.js';
 import { users,posts } from './data/index.js';
+import { env } from 'process';
 //middleware configuration
 const __filename=fileURLToPath(import.meta.url);
 const __dirname=path.dirname(__filename);
@@ -52,10 +53,13 @@ app.use("/auth",authRoutes);
 app.use("/users",userRoutes);
 app.use("/posts",postRoutes);
 //Mongoose setup
+// app.use('/',(req,res)=>{
+//   res.send("Hello");
+// })
 
-const PORT = process.env.PORT || 6001;
+const PORT =process.env.PORT|3001;
 mongoose
-  .connect("mongodb+srv://mihiraswal0:Mihiraswal2903@cluster0.w90k0np.mongodb.net/?retryWrites=true&w=majority", {
+  .connect("mongodb+srv://montyaswal0:Mihiraswal2903@cluster0.uysvzno.mongodb.net/?retryWrites=true&w=majority", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
