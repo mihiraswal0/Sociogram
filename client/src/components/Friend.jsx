@@ -27,13 +27,16 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
       {
         method: "PATCH",
         headers: {
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
+        body: JSON.stringify({userId:_id, friendId:friendId}),
       }
     );
+    
     const data = await response.json();
-    dispatch(setFriends({ friends: data }));
+    console.log(data);
+        dispatch(setFriends({ friends: data }));
   };
 
   return (

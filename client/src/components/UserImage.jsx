@@ -1,10 +1,17 @@
 import { Box } from "@mui/material";
-import { styled } from "@mui/system";
 
-const WidgetWrapper = styled(Box)(({ theme }) => ({
-  padding: "1.5rem 1.5rem 0.75rem 1.5rem",
-  backgroundColor: theme.palette.background.alt,
-  borderRadius: "0.75rem",
-}));
+const UserImage = ({ image, size = "60px" }) => {
+  return (
+    <Box width={size} height={size}>
+      <img
+        style={{ objectFit: "cover", borderRadius: "50%" }}
+        width={size}
+        height={size}
+        alt="user"
+        src={`http://localhost:3001/assets/${image}`}
+      />
+    </Box>
+  );
+};
 
-export default WidgetWrapper;
+export default UserImage;

@@ -48,7 +48,7 @@ const MyPostWidget = ({ picturePath }) => {
 
     const response = await fetch(`http://localhost:3001/posts`, {
       method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
+      // headers: { Authorization: `Bearer ${token}` },
       body: formData,
     });
     const posts = await response.json();
@@ -109,7 +109,7 @@ const MyPostWidget = ({ picturePath }) => {
                     onClick={() => setImage(null)}
                     sx={{ width: "15%" }}
                   >
-                    <DeleteOutlined />
+                     <DeleteOutlined />
                   </IconButton>
                 )}
               </FlexBetween>
