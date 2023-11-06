@@ -50,10 +50,11 @@ export const getUserPosts = async (req, res) => {
 export const likePost = async (req, res) => {
   try {
     const { id } = req.params;
+  
     const { userId } = req.body;
     const post = await Post.findById(id);
     const isLiked = post.likes.get(userId);
-
+    // console.log(isLiked);
     if (isLiked) {
       post.likes.delete(userId);
     } else {
@@ -71,3 +72,20 @@ export const likePost = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+export const commentPost=async(req,res)=>{
+  try{
+    const {id}=req.params;
+    let {userId,userName,comment}=req.body;
+    const post=await Post.findById(id);
+    if(post.userId==userId)
+    comment="Me :"+comment;
+  else
+    comment=userName+":"+comment;
+    post.comments.push(comment);
+    const updatedPost=await Post.findByIdAndUpdate(id,{comments:post.comments},{new:true});
+    res.status(200).json(updatedPost);
+  }
+  catch(err){
+    res.status(404).json({ message: err.message });
+  }
+}
