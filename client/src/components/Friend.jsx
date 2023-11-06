@@ -12,6 +12,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const { _id } = useSelector((state) => state.user);
   const token = useSelector((state) => state.token);
   const friends = useSelector((state) => state.user.friends);
+  console.log(friends)
 
   const { palette } = useTheme();
   const primaryLight = palette.primary.light;
@@ -27,16 +28,13 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
       {
         method: "PATCH",
         headers: {
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({userId:_id, friendId:friendId}),
       }
     );
-    
     const data = await response.json();
-    console.log(data);
-        dispatch(setFriends({ friends: data }));
+    dispatch(setFriends({ friends: data }));
   };
 
   return (

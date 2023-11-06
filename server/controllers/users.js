@@ -20,10 +20,11 @@ export const getUserFriends = async (req, res) => {
       user.friends.map((id) => User.findById(id))
     );
     const formattedFriends = friends.map(
-      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
-        return { _id, firstName, lastName, occupation, location, picturePath };
+      ({ _id, firstName, lastName, occupation, location, picturePath,linkdin,twitter }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath, linkdin, twitter };
       }
     );
+    console.log(formattedFriends);
     res.status(200).json(formattedFriends);
   } catch (err) {
     res.status(404).json({ message: err.message });
@@ -32,12 +33,15 @@ export const getUserFriends = async (req, res) => {
 
 /* UPDATE */
 export const addRemoveFriend = async (req, res) => {
+  const { id, friendId } = req.params;
+  const user = await User.findById(id);
+  const friend = await User.findById(friendId);
+  console.log(user)
+  console.log(friend)
   try {
-    
-    const { id, friendId } = req.body;
-    const user = await User.findById(id);
-    const friend = await User.findById(friendId);
-
+    console.log(user)
+    console.log(friend)
+   
     if (user.friends.includes(friendId)) {
       user.friends = user.friends.filter((id) => id !== friendId);
       friend.friends = friend.friends.filter((id) => id !== id);
@@ -52,14 +56,13 @@ export const addRemoveFriend = async (req, res) => {
       user.friends.map((id) => User.findById(id))
     );
     const formattedFriends = friends.map(
-      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
-        return { _id, firstName, lastName, occupation, location, picturePath };
+      ({ _id, firstName, lastName, occupation, location, picturePath,linkdin,twitter }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath,linkdin,twitter };
       }
     );
-
+      console.log(formattedFriends);
     res.status(200).json(formattedFriends);
   } catch (err) {
-    // console.log(req.params);
     res.status(404).json({ message: err.message });
   }
 };
