@@ -72,10 +72,13 @@ const Form = () => {
     );
     const savedUser = await savedUserResponse.json();
     onSubmitProps.resetForm();
+      if(savedUser.error)
+      {
+        return alert(savedUser.error);
+      }
 
-    if (savedUser) {
       setPageType("login");
-    }
+    
   };
 
   const login = async (values, onSubmitProps) => {
@@ -86,6 +89,10 @@ const Form = () => {
     });
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
+    if(loggedIn.error)
+    {
+      return alert(loggedIn.error);
+    }
     if (loggedIn) {
       dispatch(
         setLogin({
@@ -93,8 +100,10 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
+      console.log(loggedIn.user);
       navigate("/home");
     }
+  
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {

@@ -24,7 +24,7 @@ import {
     const  getUser = async () => {
       const response = await fetch(`http://localhost:3001/users/${userId}`, {
         method: "GET",
-        // headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const data = await response.json();
       setUser(data);
@@ -44,6 +44,9 @@ import {
       location,
       occupation,
       friends,
+      viewedProfile,
+      twitter,
+      linkdin
     } = user;
   
     return (
@@ -70,7 +73,7 @@ import {
               >
                 {firstName} {lastName}
               </Typography>
-              <Typography color={medium}>{friends.length} friends</Typography>
+              <Typography color={medium}>{friends?friends.length:0} friends</Typography>
             </Box>
           </FlexBetween>
           <ManageAccountsOutlined />
@@ -89,6 +92,38 @@ import {
             <Typography color={medium}>{occupation}</Typography>
           </Box>
         </Box>
+
+        <Box p="1rem 0">
+        <Typography fontSize="1rem" color={main} fontWeight="500" mb="1rem">
+          Social Profiles
+        </Typography>
+
+        <FlexBetween gap="1rem" mb="0.5rem">
+          <FlexBetween gap="1rem">
+            <img src="../assets/twitter.png" alt="twitter" />
+            <Box>
+              <Typography color={main} fontWeight="500">
+                <a href={twitter} target="_blank">Twitter</a>
+              </Typography>
+              <Typography color={medium}>Social Network</Typography>
+            </Box>
+          </FlexBetween>
+          <EditOutlined sx={{ color: main }} />
+        </FlexBetween>
+
+        <FlexBetween gap="1rem">
+          <FlexBetween gap="1rem">
+            <img src="../assets/linkedin.png" alt="linkedin" />
+            <Box>
+              <Typography color={main} fontWeight="500">
+              <a href={linkdin} target="_blank">Linkdin</a>
+              </Typography>
+              <Typography color={medium}>Network Platform</Typography>
+            </Box>
+          </FlexBetween>
+          <EditOutlined sx={{ color: main }} />
+        </FlexBetween>
+      </Box>
   
       
       </WidgetWrapper>

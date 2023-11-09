@@ -4,14 +4,13 @@ import {
     FavoriteOutlined,
     ShareOutlined,
   } from "@mui/icons-material";
-  import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+  import { Box, Button, Divider, IconButton, TextField, Typography, useTheme } from "@mui/material";
   import FlexBetween from "components/FlexBetween";
   import Friend from "components/Friend";
   import WidgetWrapper from "components/WidgetWrapper";
   import { useState } from "react";
   import { useDispatch, useSelector } from "react-redux";
   import { setPost } from "state";
-  
   const PostWidget = ({
     postId,
     postUserId,
@@ -27,8 +26,10 @@ import {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.token);
     const loggedInUserId = useSelector((state) => state.user._id);
+    const loggedUserName= useSelector((state) => state.user.firstName);
     const isLiked = Boolean(likes[loggedInUserId]);
     const likeCount = Object.keys(likes).length;
+    const [newcomment,setComment]=useState("");
   
     const { palette } = useTheme();
     const main = palette.neutral.main;
@@ -38,7 +39,7 @@ import {
       const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
         method: "PATCH",
         headers: {
-          // Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ userId: loggedInUserId }),
@@ -46,6 +47,23 @@ import {
       const updatedPost = await response.json();
       dispatch(setPost({ post: updatedPost }));
     };
+    const handleChange=(event)=>{
+      setComment(event.target.value);
+    }
+    const commentSubmit=async()=>{
+      const response = await fetch(`http://localhost:3001/posts/${postId}/comment`, {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId,userName: loggedUserName,comment:newcomment}),
+      });
+      const updatedPost = await response.json();
+      dispatch(setPost({ post: updatedPost }));
+      // handleChange();
+      setComment("");
+    }
   
     return (
       <WidgetWrapper m="2rem 0">
@@ -100,9 +118,37 @@ import {
                 <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
                   {comment}
                 </Typography>
+      
               </Box>
             ))}
             <Divider />
+            <Box mt="0.5rem">
+            <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
+                  <TextField
+                  label="Add Comment"
+                  onChange={handleChange}
+                  value={newcomment}
+    
+                />
+                </Typography>
+            </Box>
+           <Box mt="0.5rem">
+           <Button
+              fullWidth
+              type="submit"
+              sx={{
+                m: "0.5rem 0",
+                 pl: "1rem",
+                backgroundColor: palette.primary.main,
+                color: palette.background.alt,
+                "&:hover": { color: palette.primary.main },
+              }}
+              onClick={commentSubmit}
+            >
+              Post Comment
+            </Button>
+           </Box>
+              
           </Box>
         )}
       </WidgetWrapper>
