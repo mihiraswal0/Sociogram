@@ -24,6 +24,8 @@ const registerSchema = yup.object().shape({
   location: yup.string().required("required"),
   occupation: yup.string().required("required"),
   picture: yup.string().required("required"),
+  linkdin: yup.string(),
+  twitter: yup.string(),
 });
 
 const loginSchema = yup.object().shape({
@@ -39,6 +41,8 @@ const initialValuesRegister = {
   location: "",
   occupation: "",
   picture: "",
+  linkdin:"",
+  twitter:""
 };
 
 const initialValuesLogin = {
@@ -215,6 +219,30 @@ const Form = () => {
                     )}
                   </Dropzone>
                 </Box>
+                <TextField
+                  label="Linkdin Link"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.linkdin}
+                  name="linkdin"
+                  error={
+                    Boolean(touched.linkdin) && Boolean(errors.linkdin)
+                  }
+                  helperText={touched.linkdin && errors.linkdin}
+                  sx={{ gridColumn: "span 4" }}
+                />
+                <TextField
+                  label="Twitter Link"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.twitter}
+                  name="twitter"
+                  error={
+                    Boolean(touched.twitter) && Boolean(errors.twitter)
+                  }
+                  helperText={touched.twitter && errors.twitter}
+                  sx={{ gridColumn: "span 4" }}
+                />
               </>
             )}
 
