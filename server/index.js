@@ -24,12 +24,17 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 const app = express();
 app.use(express.json());
-app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+app.use(cors());
 app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
-app.use(cors({
-  origin:"*"
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      connectSrc: ["'self'"]
+    }
+  }
 }));
 app.use("/assets", express.static(path.join(__dirname, "public/assets")));
 
@@ -57,15 +62,19 @@ app.use("/posts", postRoutes);
 
 // --------------------------deployment------------------------------
 
+const __dirname1 = path.resolve();
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV === "production") {
+app.use(express.static(path.join(__dirname1, "/client/build")));
 
-  app.get("/", (req, res) => {
-    res.send("API is running..");
- 
-  });
-
-
-
-
+app.get("*", (req, res) =>
+  res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"))
+);
+} else {
+app.get("/", (req, res) => {
+  res.send("API is running..");
+});
+}
 
 
 
