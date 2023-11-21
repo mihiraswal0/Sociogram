@@ -64,8 +64,11 @@ app.use("/posts", postRoutes);
 
 app.get("/", (req, res) => {
   res.setHeader("Access-control-Allow-Origin", "*");
+
   res.send("API is running..");
 });
+
+
 
 
 
